@@ -1,0 +1,51 @@
+  PImage gene;
+  
+  float dis = 0.0F;
+  
+  int index;
+  
+  int thing1;
+  
+  int thing2;
+  
+  int threshold = 15;
+  
+  String file = "51UW1849rJL._SY355_.jpg";
+  
+  String type = "jpg";
+  
+  public void setup() {
+    selectInput("Select a file to process:", "fileSelected");
+    fullScreen();
+  }
+  
+  public void fileSelected(File selection) {
+    file = selection.getAbsolutePath();
+  }
+  
+  public void draw() {
+    gene = loadImage(file, type);
+    gene.resize(width, height);
+    gene.loadPixels();
+    loadPixels();
+    for (int x = 0; x < gene.width - 1; x++) {
+      for (int y = 0; y < gene.height; y++) {
+        index = x + y * gene.width;
+        pixels[index] = gene.pixels[index];
+        thing1 = pixels[index];
+        thing2 = gene.pixels[mouseX + mouseY * gene.width];
+        if (dist(red(thing1), green(thing1), blue(thing1), 255.0F, 255.0F, 255.0F) > 20.0F && 
+          dist(red(thing1), green(thing1), blue(thing1), red(thing2), green(thing2), blue(thing2)) < threshold && mousePressed)
+          if (dist(red(thing1), green(thing1), blue(thing1), 0.0F, 0.0F, 0.0F) < 100.0F) {
+            pixels[index] = color(255);
+          } else {
+            pixels[index] = color(0);
+          }  
+      } 
+    } 
+    println(color(gene.pixels[mouseX + mouseY * gene.width]));
+    updatePixels();
+    gene.updatePixels();
+    textSize(50.0F);
+    fill(0);
+  }
